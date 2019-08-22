@@ -71,7 +71,6 @@ int main()
     cN2ini=nN2Ar*cO2ini;
     deltah(Tini, &dhcomb, &dhCO2, &dhCO, &dhO2, &dhN2, &dhH20);
     U1=(ncomb*(hfcomb+dhcomb)+nN2*(dhN2)+nO2*(dhO2)-(ncomb+nO2+nN2)*(Rmol*Tini))*ccombini;
-    printf("U1= %f\n", U1);
     ccomb=ccombini;
     cO2=cO2ini;
     cCO=0;
