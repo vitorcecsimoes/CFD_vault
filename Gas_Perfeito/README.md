@@ -1,8 +1,7 @@
 # Gas_Perfeito
+---
+This software was developed as a part of the Thermodynamics course of the Mechanical Engineering undergraduate program at Universidade de São Paulo (USP) and was latter improoved as a part of the Thermodynamics course from the Chemical Engineering undergraduate program at Universidade Federal de São Paulo (Unifesp)
 
-Programa para cálculo da densidade dado a pressão e a temperatura para amônia e propano
+It evaluates the density of ammonia and propane at a given pressure and temperature.
 
-A densidade é calculada segundo as hipóteses:
-Gás Perfeito
-Beatti-Bridheman
-Lee-Kesler
+For academic purposes, three different approaches are used for the evaluation: Perfect gas; Beatti-Bridgeman's and Lee-Kesler's
