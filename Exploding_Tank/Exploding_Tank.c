@@ -30,7 +30,7 @@ int deltah (double T, double *dhcomb,double  *dhCO2,double  *dhCO,double  *dhO2,
 
 int main()
 {
-    //variáveis
+    //variable
     double Vint, pini, Tini, ycomb, Rcal, Rmol, nN2Ar, passo, R, m, t, v;
     double hfcomb, hfCO2, hfH20, hfCO, dhcomb, dhCO2, dhCO, dhO2, dhN2, dhH20, MO2, MN2, Mcomb, Mmist, MCO, Mag, MCO2;
     double ncomb, nAr, nO2, nN2, nCO2, nag, ccombini, cO2ini, cN2ini, ccomb, cO2, cN2, temp, temp1, U2, p;
@@ -38,7 +38,7 @@ int main()
     double dif, dif1, difO2, difCO,difCO2, difag, T, ftemp, ftemp1, fdif, fdif1, fdifO2, fdifCO, fdifCO2, fdifag;
     int i,a,c;
 
-    //valores iniciais
+    //initial inputs
     Vint=2; //m^3
     pini=0.7; //bar
     Tini=750; //K
@@ -48,7 +48,7 @@ int main()
     nN2Ar=3.76; //mol
     passo=1E-9;
 
-    //propriedades constantes
+    //constant properties
     MO2=31.999;
     MN2=28.013;
     Mcomb=58.123;
@@ -60,7 +60,7 @@ int main()
     hfH20=-241854; //kj/kmol [Turns]
     hfCO=-110541; //kj/kmol [Turns]
 
-    //calculos preliminares
+    //preliminar evaluation
     ncomb=1;
     nAr=(1/ycomb-1)/4.76;
     nO2=nAr;
