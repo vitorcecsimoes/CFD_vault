@@ -1,7 +1,7 @@
 # include <stdio.h>
 # include <math.h>
 
-//Declaração de constantes
+//Constant setup
 const double Rcal=1.987; //kcal/(mol*K)
 const double Rmol=8.314; //kJ/(kmol*K)
 
@@ -17,7 +17,7 @@ const double hfC3H8=-104700; //kJ/kmol [nist.gov]
 const double hfC4H10=-125782; //kJ/kmol [NASA]
 const double hfC5H12=-146753; //kJ/kmol [NASA]
 
-//cabeçalhos das funções
+//Function declaration
 int CalcComp(double phi, double nC, double nH, double *nO2real, double *nCO2real, double *nH2Oreal, double *nexcomb, double *nexO2);
 int DeltahComb(int select, double T,double  *dhcomb);
 int PropertyO2 (char prop,double T);
@@ -29,12 +29,12 @@ int PropertyH2O(char prop,double T);
 int KpH2OCO2 (double T, double *Kp);
 
 
-//inicialização da variável de arquivo
+//File variable start
 FILE *file;
 
 
 int main (){
-//======Declaração de variáveis=======//
+//======Variable declaration=======//
 	double precision, dif, TadP, TadV, TadPdiss, TadVdiss, Tadnew, fn;
 	double A, B, D, lower, upper;
 	double phi, Ti, Tad, dG, Kp;
@@ -46,20 +46,20 @@ int main (){
 	int select,loop;
 
 
-//loop principal, para cada valor de select um combustível é utilizado
+//Main loop, the select variable act as a fuel selection flag.
 	for (select=1; select<=7; select++){
 		
 		precision = 1E-3;
 		Ti=298; //K
 		ncomb=1; //mol
 		
-		//fecha o arquivo anteriormente aberto
+		//close previously oppen file
 		if (select>1){
 			fclose (file);
 		}
 		
-		//inicialização dos arquivos, guardando cada combustível no seu respectivo arquivo
-		//os arquivos ficarão localizados na mesma pasta que o programa
+		//start a new file for each fuel type
+		//the files will be archived in the same folder as the .exe
 		if (select==1){
 			file = fopen("CH4.txt","w");
 		}
@@ -87,15 +87,15 @@ int main (){
 		for (phi = 0.25; phi<2.2; phi=phi+0.01){
 
 			if (select==1){
-			//combustível = metano = CH4
+			//methane = CH4
 				nC=ncomb;
 				nH=4*ncomb;
-				CalcComp(phi, nC, nH, &nO2, &nCO2, &nH2O, &nexcomb, &nexO2); //cálculo da composição dos gases de entrada e saída
+				CalcComp(phi, nC, nH, &nO2, &nCO2, &nH2O, &nexcomb, &nexO2); //evaluates the intake and exhaust gas composition
 				hfreact=hfCH4;
 				DeltahComb(select,Ti,&dhreact);
 			}
 			if (select==2){
-			//combustível = etino = C2H2
+			//ethine = C2H2
 				nC=2*ncomb;
 				nH=2*ncomb;
 				CalcComp(phi, nC, nH, &nO2, &nCO2, &nH2O, &nexcomb, &nexO2);
@@ -104,7 +104,7 @@ int main (){
 			}
 			
 			if (select==3){
-			//combustível = eteno = C2H4
+			//ethene = C2H4
 				nC=2*ncomb;
 				nH=4*ncomb;
 				CalcComp(phi, nC, nH, &nO2, &nCO2, &nH2O, &nexcomb, &nexO2);
@@ -112,7 +112,7 @@ int main (){
 				DeltahComb(select,Ti,&dhreact);
 			}
 			if (select==4){
-			//combustível = etano = C2H6
+			//ethane = C2H6
 				nC=2*ncomb;
 				nH=6*ncomb;
 				CalcComp(phi, nC, nH, &nO2, &nCO2, &nH2O, &nexcomb, &nexO2);
@@ -121,7 +121,7 @@ int main (){
 			}
 			
 			if (select==5){
-			//combustível = propano = C3H8
+			//propane = C3H8
 				nC=3*ncomb;
 				nH=8*ncomb;
 				CalcComp(phi, nC, nH, &nO2, &nCO2, &nH2O, &nexcomb, &nexO2);
@@ -129,7 +129,7 @@ int main (){
 				DeltahComb(select,Ti,&dhreact);
 			}
 			if (select==6){
-			//combustível = butano = C4H10
+			//butane = C4H10
 				nC=4*ncomb;
 				nH=10*ncomb;
 				CalcComp(phi, nC, nH, &nO2, &nCO2, &nH2O, &nexcomb, &nexO2);
@@ -137,7 +137,7 @@ int main (){
 				DeltahComb(select,Ti,&dhreact);
 			}
 			if (select==7){
-			//combustível = pentano = C5H12
+			//pentane = C5H12
 				nC=5*ncomb;
 				nH=12*ncomb;
 				CalcComp(phi, nC, nH, &nO2, &nCO2, &nH2O, &nexcomb, &nexO2);
@@ -146,7 +146,7 @@ int main (){
 			}
 			
 			
-			//cálculos preliminares
+			//preliminar evaluation
 					
 			nN2=3.76*nO2;
 			
@@ -157,9 +157,9 @@ int main (){
 			
 			Hreact = ncomb*(hfreact+dhreact)+nO2*dhO2+nN2*dhN2; //kJ
 
-//======V constante=======//
+//======CONSTANT VOLUME=======//
 			
-			//parâmetros de entrada
+			//input parameters
 			dif=10;
 			lower=500+Ti;
 			upper=5000;
@@ -167,7 +167,7 @@ int main (){
 			
 			while (dif>precision){
 				
-				//cálculo das entalpias
+				//enthalpy evaluation
 				dhO2=PropertyO2('h', Tad);
 				dhN2=PropertyN2('h', Tad);
 				dhCO2=PropertyCO2('h', Tad);
@@ -176,7 +176,7 @@ int main (){
 				
 				Hprod=nCO2*(hfCO2+dhCO2)+nH2O*(hfH2O+dhH2O)+nexO2*dhO2+nN2*dhN2+nexcomb*dhreact; //kJ
 				
-				//Avaliação da temperatura
+				//temperature evaluation
 				if(Hreact>Hprod){
 					lower=Tad;
 					Tadnew=(lower+upper)/2;
@@ -186,7 +186,7 @@ int main (){
 					Tadnew=(lower+upper)/2;
 				}
 				
-				//Avaliação da variação da temperatura, se a temperatura varia muito pouco, então a temperatura alvo já foi atingida
+				//Temperature change evaluation, if the change is less than the disered error, then the target temperature was achieved
 				dif=fabs(Tad-Tadnew);
 				
 				Tad=Tadnew;
@@ -196,7 +196,7 @@ int main (){
 			TadV = Tad;
 			
 			
-//======P constante=======//
+//======CONSTANT PRESSURE=======//
 			
 			dif=10;
 			lower=500+Ti;
@@ -233,11 +233,11 @@ int main (){
 			TadPdiss=0;
 			TadVdiss=0;
 
-//======Com dissociação=======//
+//======With CO2 and H2O dissociation=======//
 			
 			if (phi>1){
 
-//======V constante com dissociação=======//
+//======CONSTANT VOLUME=======//
 				dif=10;
 				lower=500+Ti;
 				upper=TadV+1000;
@@ -251,13 +251,13 @@ int main (){
 					dhH2=PropertyH2('h', Tad);
 					dhH2O=PropertyH2O('h', Tad);
 					
-					//Cálculo das entropias
+					//CÃ¡lculo das entropias
 					sCO=PropertyCO('s', Tad);
 					sCO2=PropertyCO2('s', Tad);
 					sH2=PropertyH2('s', Tad);
 					sH2O=PropertyH2O('s', Tad);
 					
-					//Cálculo da dissociação, o sistema foi resolvido algebricamente
+					//CÃ¡lculo da dissociaÃ§Ã£o, o sistema foi resolvido algebricamente
 					dG=-(hfCO+dhCO)-(hfH2O+dhH2O)+(hfCO2+dhCO2)+dhH2-Tad*(-sCO-sH2O+sCO2+sH2);
 					Kp=exp(-dG/(Rmol*Tad));
 					
@@ -288,7 +288,7 @@ int main (){
 				
 				TadVdiss = Tad;
 				
-//======P constante com dissociação=======//
+//======CONSTANT PRESSURE=======//
 				dif=10;
 				lower=500+Ti;
 				upper=TadP+1000;
@@ -344,7 +344,7 @@ int main (){
 			fprintf(file,"%.2lf	%lf	%lf	%lf	%lf\n",phi, TadV, TadVdiss, TadP, TadPdiss);
 		}
 	}
-	//fecha o último arquivo
+	//close last file
 	fclose (file);
 	return 0;
 }
@@ -412,7 +412,7 @@ int DeltahComb(int select, double T,double  *dhcomb) {
 			H =	-74.87310;
 		}
 		else{
-			printf("CH4 - temperatura imprópria (T= %lf)\n", T);
+			printf("CH4 - temperatura imprÃ³pria (T= %lf)\n", T);
 		}
 		*dhcomb =(A*theta+B*theta2/2+C*theta3/3+D*theta4/4-E/theta+F-H)*1000;
 	}
@@ -443,7 +443,7 @@ int DeltahComb(int select, double T,double  *dhcomb) {
 	
 		}
 		else{
-			printf("C2H2 - temperatura imprópria (T= %lf)\n", T);
+			printf("C2H2 - temperatura imprÃ³pria (T= %lf)\n", T);
 		}
 		*dhcomb =(A*theta+B*theta2/2+C*theta3/3+D*theta4/4-E/theta+F-H)*1000;
 	}
@@ -474,7 +474,7 @@ int DeltahComb(int select, double T,double  *dhcomb) {
 	
 		}
 		else{
-			printf("C2H4 - temperatura imprópria (T= %lf)\n", T);
+			printf("C2H4 - temperatura imprÃ³pria (T= %lf)\n", T);
 		}
 		*dhcomb =(A*theta+B*theta2/2+C*theta3/3+D*theta4/4-E/theta+F-H)*1000;
 	}
@@ -500,7 +500,7 @@ int DeltahComb(int select, double T,double  *dhcomb) {
 			b2 = 2.66682316;
 		}
 		else{
-			printf("C2H6 - temperatura imprópria (T= %lf)\n", T);
+			printf("C2H6 - temperatura imprÃ³pria (T= %lf)\n", T);
 		}
 		*dhcomb =Rmol*(a1*T+a2*T2/2+a3*T3/3+a4*T4/4+a5*T5/5+b1);
 	}
@@ -541,7 +541,7 @@ int DeltahComb(int select, double T,double  *dhcomb) {
 			b2 = -1.09409879;
 		}
 		else{
-			printf("C4H10 - temperatura imprópria (T= %lf)\n", T);
+			printf("C4H10 - temperatura imprÃ³pria (T= %lf)\n", T);
 		}
 		*dhcomb =Rmol*(a1*T+a2*T2/2+a3*T3/3+a4*T4/4+a5*T5/5+b1);
 	}
@@ -568,7 +568,7 @@ int DeltahComb(int select, double T,double  *dhcomb) {
 			b2 = 18.679072;
 		}
 		else{
-			printf("C5H12 - temperatura imprópria (T= %lf)\n", T);
+			printf("C5H12 - temperatura imprÃ³pria (T= %lf)\n", T);
 		}
 		*dhcomb =Rmol*(a1*T+a2*T2/2+a3*T3/3+a4*T4/4+a5*T5/5+b1);
 	}
@@ -616,7 +616,7 @@ int PropertyO2(char prop,double T) {
 		H =	0.0;
 	}
 	else{
-		printf("O2 - temperatura imprópria (T= %lf)\n", T);
+		printf("O2 - temperatura imprÃ³pria (T= %lf)\n", T);
 	}
 	
 	if (prop=='h'){
@@ -673,7 +673,7 @@ int PropertyN2(char prop,double T) {
 		H = 0;
 	}
 	else{
-		printf("N2 - temperatura imprópria (T= %lf)\n", T);
+		printf("N2 - temperatura imprÃ³pria (T= %lf)\n", T);
 	}
 	if (prop=='h'){
 		//dH [kJ/kmol]
@@ -719,7 +719,7 @@ int PropertyCO(char prop,double T) {
 		H = -110.5271;
 	}
 	else{
-		printf("CO - temperatura imprópria (T= %lf)\n", T);
+		printf("CO - temperatura imprÃ³pria (T= %lf)\n", T);
 	}
 	if (prop=='h'){
 		//dH [kJ/kmol]
@@ -765,7 +765,7 @@ int PropertyCO2(char prop,double T) {
 		H = -393.5224;
 	}
 	else{
-		printf("CO2 - temperatura imprópria (T= %lf)\n", T);
+		printf("CO2 - temperatura imprÃ³pria (T= %lf)\n", T);
 	}
 	if (prop=='h'){
 		//dH [kJ/kmol]
@@ -823,7 +823,7 @@ int PropertyH2(char prop,double T) {
 		H = 0;
 	}
 	else{
-		printf("H2 - temperatura imprópria (T= %lf)\n", T);
+		printf("H2 - temperatura imprÃ³pria (T= %lf)\n", T);
 	}
 	if (prop=='h'){
 		//dH [kJ/kmol]
@@ -869,7 +869,7 @@ int PropertyH2O(char prop,double T) {
 		H = -241.8264;
 	}
 	else{
-		printf("H2O - temperatura imprópria (T= %lf)\n", T);
+		printf("H2O - temperatura imprÃ³pria (T= %lf)\n", T);
 	}
 	if (prop=='h'){
 		//dH [kJ/kmol]
