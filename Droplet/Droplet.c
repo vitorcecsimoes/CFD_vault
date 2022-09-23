@@ -1,18 +1,18 @@
 #include <stdio.h>
 #include <math.h>
-/*   HIPÓTESES
-1) Ar seco
-2) Queda livre
-3) Trejetória retilínea */
+/*   HIPÃ“TESYS
+1) Dry air
+2) Free falling
+3) Straight trajectory */
 
 
-//variação de entalpia (interpolação entre 283<=T<=299 K)
+//enthalpy evaluation (valid for T between 283 to 299 K)
 int entalp (double T, double *hl, double *hv){
     *hl=-0.0006*T*T+4.5406*T-1194.9464;
     *hv=219.999*T*T-126501.777*T+18184080.665;
 }
 
-//variação de volume específico (interpolação entre 283<=T<=299 K)
+//specific volume evaluation (valid for T between 283 to 299 K)
 int prop (double T, double *nil, double *nig){
     *nil=3.180957E-21*T*T+2E-7*T+0.0009434;
     *nig=0.13911*T*T-85.00449*T+13021.31973;
@@ -24,17 +24,17 @@ int main (){
     double g, dt, t, D, roar,dV, T1, Nu, Pr, k, hl, hv, dM, s;
     int i, a, c;
 	
-	//Arquivos
+    //File handling
     FILE *Vol, *dist, *temp, *vel;
     Vol = fopen("volume.txt","w");
     vel = fopen("velocidade.txt","w");
     dist = fopen("distancia.txt","w");
     temp = fopen("temperatura.txt","w");
 
-    //valores iniciais
+    //Initial inputs
     Tinf=295; //K
     T=Tinf;
-    d=1E-3; //m (diâmetro)
+    d=1E-3; //m (diÃ¢metro)
     roar=1.18473; //kg/m^3
     nil=1.002E-3; //m^3/kg
     nig=51.94; //m^3/kg
@@ -51,7 +51,7 @@ int main (){
     i=0;
     s=0;
 
-    // cálculos preliminares
+    // Preliminary evaluation
     A=M_PI*pow(d,2); //m^2
     Vini=M_PI*pow(d,3)/6; //m^3
     M=Vini/nil; //kg
@@ -60,18 +60,18 @@ int main (){
 
     while(V>0.001*Vini) {
 
-        //convecção de massa
+        //Mass convection
         prop(T, &nil, &nig);
-        s=v*dt+s; //distância percorrida
-        D=3*M_PI*mi*v*d+9*M_PI*roar*pow(v,2)*pow(d,2)/16; //arrasto
-        v=(g-D/M)*dt+v; //velocidade - ma=g-D
+        s=v*dt+s; //Distance
+        D=3*M_PI*mi*v*d+9*M_PI*roar*pow(v,2)*pow(d,2)/16; //Drag
+        v=(g-D/M)*dt+v; //Velocity derived from: mass*acc = Weight - Drag
         Re=v*d/visc;
         Sc=nig/Dab;
         Sh=2+(0.4*pow(Re,0.5)+0.06*pow(Re,2/3))*pow(Sc,0.4);
         h=Sh*Dab/d;
-        na=h*A/nig; //taxa de troca de massa
+        na=h*A/nig; //Mass loss
 
-        //valores finais
+        //Final values
         dV=na*dt*nil;
         V=V-dV;
         M=V/nil;
@@ -79,7 +79,7 @@ int main (){
         A=M_PI*pow(d,2);
         dM=dV/nil;
 
-        //troca de calor
+        //Heat excange
         Re=v*d/visc;
         Nu=2+(0.4*pow(Re,0.5)+0.06*pow(Re,2/3))*pow(Pr,0.4);
         h=Nu*k/d;
@@ -92,7 +92,7 @@ int main (){
             else T1=T;
         }
 
-        //impressão no arquivo .txt
+        //Saving values to the .txt file
         c=i%100;
         if (c==0) {
             fprintf (Vol, "%.8f %.15f\n", t, V);
