@@ -13,15 +13,14 @@ int main() {
 	double check, precisao, count;
 
 ini:
-	// Dados 
-	//Universais
+	//Global inputs 
 	precisao = 10E-6;
 	check = precisao * 100;
 	Rmol = 8314.5; //J/kmol*K
 	Rbb = 0.08206; // atm*l/mol*K
 	count = 0;
 	
-	//Constantes de Lee-Kesler fluido simples
+	//Lee-Kesler's contants for simple fluids
 	b1sim = 0.1181193;
 	b2sim = 0.265728;
 	b3sim = 0.154790;
@@ -35,7 +34,7 @@ ini:
 	betasim = 0.65392;
 	gamasim = 0.060167;
 
-	//Constantes de Lee-Kesler de referência
+	//Reference Lee-Kesler's constants
 	b1ref = 0.2026579;
 	b2ref = 0.331511;
 	b3ref = 0.027655;
@@ -49,11 +48,11 @@ ini:
 	betaref = 1.226;
 	gamaref = 0.03754;
 	
-	printf("\nEscolha o gas \n1 - Amonia \n2 - Propano \n:");
+	printf("\Choose a gas \n1 - Ammonia \n2 - Propane \n:");
 	scanf("%lf", &T);
 	
 	if (T==1) {
-		// Amônia
+		// Ammonia
 		Tc = 405.5; // K
 		Pc = 11.35E6;  // Pa
 		Mmol = 17.031; // g/mol
@@ -66,7 +65,7 @@ ini:
 	}
 	
 	else {
-		// Propano
+		// Propane
 		Tc = 369.8; // K
 		Pc = 4.257E6;  // Pa
 		Mmol = 44.097; // g/mol
@@ -78,9 +77,9 @@ ini:
 		f_acent = 0.153;
 	}
 
-	printf("\nEntre com o valor de T em K: ");
+	printf("\nType the temperature value (in K): ");
 	scanf("%lf", &T);
-	printf("Entre com o valor de P em bar: ");
+	printf("Type the pressure value (in bar): ");
 	scanf("%lf", &P);
 
 	P = P *1E5; //Pa
@@ -89,10 +88,10 @@ ini:
 	Tr = T / Tc;
 	Pr = P / Pc;
 
-	// Gás Perfeito 
+	// Perfect gas
 
 	v = R*T / P;
-	printf("\nGas Perfeito: v = %lf m3/kg\n", v);
+	printf("\nPerfec gas: v = %lf m3/kg\n", v);
 
 	// Beattie-Bridgeman
 	vold = v*Mmol;
