@@ -164,11 +164,11 @@ int main()
         if(i==10000000) printf("t=%.9f\n ccomb=%.30f T=%f p=%.15f\n",t, ccomb, T, p);
     }
 
-    printf("tempo=%1.30f\n", t);
-    printf("temperatura=%1.30f\n", T);
+    printf("time=%1.30f\n", t);
+    printf("temperature=%1.30f\n", T);
     v=(ccomb+cO2+cCO+cCO2+cag+cN2);
     p=v*Rmol*T*10;
-    printf("pressao=%.30f\n", p);
+    printf("pressure=%.30f\n", p);
 
     scanf ("%d", c);
 
