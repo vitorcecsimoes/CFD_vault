@@ -1,4 +1,4 @@
-# Gas_Perfeito
+# Perfect Gas
 ---
 This software was developed as a part of the Thermodynamics course of the Mechanical Engineering undergraduate program at Universidade de São Paulo (USP) and was latter improoved as a part of the Thermodynamics course from the Chemical Engineering undergraduate program at Universidade Federal de São Paulo (Unifesp)
 
